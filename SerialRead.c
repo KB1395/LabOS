@@ -17,9 +17,9 @@ toptions.c_lflag |= ICANON;
 /* commit the serial port settings */
 tcsetattr(fd, TCSANOW, &toptions);
 /* Send byte to trigger Arduino to send string back */
-write(fd, "0", 1);
 /* Receive string from Arduino */
+while (True){
 n = read(fd, buf, 64);
 /* insert terminating zero in the string */
 buf[n] = 0;
-printf("%i bytes read, buffer contains: %s\n", n, buf);
+printf("%i bytes read, buffer contains: %s\n", n, buf);}
