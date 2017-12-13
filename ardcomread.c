@@ -30,17 +30,19 @@ int main (void) {
     /* commit the serial port settings */
     tcsetattr(fd, TCSANOW, &toptions);
 
+    char buf[10];
+
     while(1) {
         /* Send byte to trigger Arduino to send string back */
         write(fd, "0", 1);
         /* Receive string from Arduino */
-        char buf[256];
-        char n = read(fd, buf, 64);
+        memset(buf, '\0', 10);
+        char n = read(fd, buf, 10);
         /* insert terminating zero in the string */
-        buf[n] = 0;
+        buf[n] = '\0';
 
-        printf("\r%i bytes read, buffer contains: %s", n, buf);
-        usleep(100000);
+        printf("%i bytes read, buffer contains: %s", n, buf);
+        usleep(500000);
     }
     
 }
