@@ -1,8 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <ioctl.h>
-#include <fcntl.h>
-#include <termios.h>
+#include "stdio.h"
+#include "stdlib.h"
+#include "sys/ioctl.h"
+#include "sys/fcntl.h"
+#include "sys/termios.h"
 
 int main (void) {
     /* open serial port */
