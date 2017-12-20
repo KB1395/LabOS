@@ -28,8 +28,8 @@ int main (void) {
     /* enable receiver */
     toptions.c_cflag |= CREAD | CLOCAL;
     /* Setting Time outs */                                       
-    toptions.c_cc[VMIN]  = 3; /* Read 10 characters */  
-    toptions.c_cc[VTIME] = 0;  /* Wait indefinitely */ 
+    //toptions.c_cc[VMIN]  = 3; /* Read 10 characters */  
+    //toptions.c_cc[VTIME] = 0;  /* Wait indefinitely */ 
 
     /* Canonical mode */
     toptions.c_lflag |= ICANON;
@@ -41,6 +41,7 @@ int main (void) {
     while(1) {
         /* Send byte to trigger Arduino to send string back */
         write(fd, "0", 1);
+        printf("Sent null byte");
         /* Receive string from Arduino */
         memset(buf, '\0', 10);
         char n = read(fd, buf, 10);
