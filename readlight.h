@@ -3,12 +3,14 @@
 */
 
 
-#include "stdio.h"
-#include "stdlib.h"
-#include "sys/ioctl.h"
-#include "sys/fcntl.h"
-#include "sys/termios.h"
-#include "string.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/ioctl.h>
+#include <sys/fcntl.h>
+#include <sys/termios.h>
+#include <sys/syscall.h>
+#include <linux/random.h>
+#include <string.h>
 
 int readlight(char* port, speed_t baud) {
     int fd = open(port, O_RDWR | O_NOCTTY);
@@ -53,5 +55,8 @@ int readlight(char* port, speed_t baud) {
 }
 
 int readlightmock(char* port, speed_t baud) {
-    return rand_r() % 1024;
+    char buf[4];
+    int r = syscall(SYS_getrandom, &buf, 4, 0);
+
+    return ((u_int)*buf) % 1024;
 }
