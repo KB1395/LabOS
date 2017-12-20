@@ -21,17 +21,16 @@ void main() {
 		
 		switch (params[0]); {
 		case "Help":
-			printf('"baud" allows to set the baud rate fro the serial port (default 9600)');
-			printf('"serial" allows to set the serial port (default /dev/ttyACM0)');
+			printf('"set" allows to set the baud rate or the port');
 			printf('"read" starts the program with the entered (or default if non entered) parameters');
-		case "baud":
+		/*case "baud":
 			printf("insert baud");
 			char strbaud[50];
 			scanf("%d", &strbaud);
 			baud = atoi(strbaud);
 		case "port":
 			printf("insert port");
-			scanf('%s', &port);
+			scanf('%s', &port);*/
 		case "set":
 			setfunc(&baud, &port, params);
 
@@ -50,6 +49,9 @@ void setfunc(char *baud, char *port, char **params) {
 		*port = params[2];
 	case "baud":
 		*baud = stringtobaud(param[2]);
+	case "help":
+		printf('"set port [portname]" to set port');
+		printf('"set baud [baudrate]" to set the baud rate')
 	}
 
 
