@@ -1,11 +1,11 @@
-#include <readardserial.h>
+#include <readlight.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <termios.h>
 void main() {
-	int baud;
-	baud= 9600;
+	speed_t baud=B9600;
 	char port[30];
 	port = "/dev/ttyACM0";
 	while (1) {
@@ -33,10 +33,10 @@ void main() {
 			printf("insert port");
 			scanf('%s', &port);
 		case "set":
-			setfunc(&set_param, &set_value, params);
+			setfunc(&baud, &port, params);
 
 		case "read":
-
+			printf("%i \n", readlightmock(&port, baud));
 
 			
 		}
@@ -44,12 +44,56 @@ void main() {
 	}
 }
 
-void setfunc(char *out_param, char *out_value, char **params) {
-	*out_param = params[1];
-	*out_value = params[2];
+void setfunc(char *baud, char *port, char **params) {
+	switch (params[1]) {
+	case "port":
+		*port = params[2];
+	case "baud":
+		*baud = stringtobaud(param[2]);
+	}
 
 
 
+}
+speed_t stringtobaud(char *strbaud) {
+	int intbaud = atoi(strbaud);
+	switch (intbaud) {
+		case 0:
+			return B0;
+		case 50:
+			return B50;
+		case 75:
+			return B75;
+		case 110:
+			return B110;
+		case 134:
+			return B134;
+		case 150:
+			return B150;
+		case 200:
+			return B200;
+		case 300:
+			return B300;
+		case 600:
+			return B600;
+		case 1200:
+			return B1200;
+		case 1800:
+			return B1800;
+		case 2400:
+			return B2400;
+		case 4800:
+			return B4800;
+		case 9600:
+			return B9600;
+		case 19200:
+			return B19200;
+		case 38400:
+			return B38400;
+		default:
+			return B9600;
+
+	}
 }
 char** str_split(char* a_str, const char a_delim)
 {
