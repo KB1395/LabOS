@@ -8,6 +8,7 @@
 #include "sys/ioctl.h"
 #include "sys/fcntl.h"
 #include "sys/termios.h"
+#include "sys/random.h"
 #include "string.h"
 
 int readlight(char* port, speed_t baud) {
@@ -53,5 +54,8 @@ int readlight(char* port, speed_t baud) {
 }
 
 int readlightmock(char* port, speed_t baud) {
-    return rand_r() % 1024;
+    char buf[4];
+    getrandom(&buf, 4, );
+
+    return ((u_int)*buf) % 1024;
 }
