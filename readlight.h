@@ -8,7 +8,8 @@
 #include <sys/ioctl.h>
 #include <sys/fcntl.h>
 #include <sys/termios.h>
-#include <sys/random.h>
+#include <sys/syscall.h>
+#include <linux/random.h>
 #include <string.h>
 
 int readlight(char* port, speed_t baud) {
@@ -55,7 +56,7 @@ int readlight(char* port, speed_t baud) {
 
 int readlightmock(char* port, speed_t baud) {
     char buf[4];
-    getrandom(&buf, 4, );
+    int r = syscall(SYS_getrandom, &buf, 4, 0);
 
     return ((u_int)*buf) % 1024;
 }
