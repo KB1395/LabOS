@@ -16,6 +16,7 @@ void main() {
 
 		printf("Insert Command");
 		scanf("%s", &query);
+		char** params;
 		params=str_split(&query, " ");
 		printf(query);
 		
