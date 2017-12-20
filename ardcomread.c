@@ -25,6 +25,12 @@ int main (void) {
     toptions.c_cflag &= ~CSTOPB;
     toptions.c_cflag &= ~CSIZE;
     toptions.c_cflag |= CS8;
+    /* enable receiver */
+    toptions.c_cflag |= CREAD | CLOCAL;
+    /* Setting Time outs */                                       
+    toptions.c_cc[VMIN]  = 3; /* Read 10 characters */  
+    toptions.c_cc[VTIME] = 0;  /* Wait indefinitely */ 
+
     /* Canonical mode */
     toptions.c_lflag |= ICANON;
     /* commit the serial port settings */
