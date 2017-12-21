@@ -53,7 +53,7 @@ void setfunc(char *baud, char *port, char **params) {
 	case "help":
 		//help for the help
 		printf('"set port [portname]" to set port');
-		printf('"set baud [baudrate]" to set the baud rate')
+		printf('"set baud [baudrate]" to set the baud rate');
 	}
 
 
