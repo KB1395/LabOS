@@ -10,7 +10,7 @@ void main() {
 	speed_t baud=B9600;
 	//set of the port on which the Arduino is plugged. default value is "/dev/ttyACM0"
 	char port[30];
-	port = "/dev/ttyACM0";
+	*port = "/dev/ttyACM0";
 	//Here starts the loop that will wait for a command (exit with ctrl+C)
 	while (1) {
 		//char storing the keyboard entry
