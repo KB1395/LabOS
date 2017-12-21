@@ -4,38 +4,36 @@
 #include <string.h>
 #include <assert.h>
 #include <termios.h>
+//The purpose of this code is to control the light reading through commands
 void main() {
+	//The baud rate is an object "speed_t" added through the termios.h lib. The default value is 9600
 	speed_t baud=B9600;
+	//set of the port on which the Arduino is plugged. default value is "/dev/ttyACM0"
 	char port[30];
 	port = "/dev/ttyACM0";
+	//Here starts the loop that will wait for a command (exit with ctrl+C)
 	while (1) {
+		//char storing the keyboard entry
 		char query[512];
-
-		char set_param[30];
-		char set_value[256];
-
 		printf("Insert Command");
+		//storing the keyboard entry
 		scanf("%s", &query);
+		//char used to parse the command in order to extract the parameters and values
 		char** params;
-		params=str_split(&query, " ");
-		printf(query);
-		
+		//split of the entry with a space as splitting character
+		params = str_split(&query, " ");		
+		//switch case about which command is entered
 		switch (params[0]); {
-		case "Help":
+		case "help":
+			//help about the which commands are available
 			printf('"set" allows to set the baud rate or the port');
 			printf('"read" starts the program with the entered (or default if non entered) parameters');
-		/*case "baud":
-			printf("insert baud");
-			char strbaud[50];
-			scanf("%d", &strbaud);
-			baud = atoi(strbaud);
-		case "port":
-			printf("insert port");
-			scanf('%s', &port);*/
 		case "set":
+			//command to set the baud rate and/or the port
 			setfunc(&baud, &port, params);
 
 		case "read":
+			//command to start de reading of the arduino
 			printf("%i \n", readlightmock(&port, baud));
 
 			
@@ -43,14 +41,17 @@ void main() {
 
 	}
 }
-
+//setfunc is used to recognise the parameters for the set command
 void setfunc(char *baud, char *port, char **params) {
 	switch (params[1]) {
 	case "port":
+		//in case of port we take the value and save it in the port variable
 		*port = params[2];
 	case "baud":
+		//in case of baud we take the int and save it in the baud variable
 		*baud = stringtobaud(param[2]);
 	case "help":
+		//help for the help
 		printf('"set port [portname]" to set port');
 		printf('"set baud [baudrate]" to set the baud rate')
 	}
@@ -58,6 +59,7 @@ void setfunc(char *baud, char *port, char **params) {
 
 
 }
+//This function is used to transform a integer value set in the command into a baud rate object (speed_t)
 speed_t stringtobaud(char *strbaud) {
 	int intbaud = atoi(strbaud);
 	switch (intbaud) {
@@ -98,6 +100,9 @@ speed_t stringtobaud(char *strbaud) {
 
 	}
 }
+//function used to split the command string in command, parameter and value
+//source : https://stackoverflow.com/questions/9210528/split-string-with-delimiters-in-c
+//I would have done it myself but i'm still strugguling with c.
 char** str_split(char* a_str, const char a_delim)
 {
 	char** result = 0;
