@@ -4,6 +4,7 @@
 #include <string.h>
 #include <assert.h>
 #include <termios.h>
+#include <string.h>
 //The purpose of this code is to control the light reading through commands
 void main() {
 	//The baud rate is an object "speed_t" added through the termios.h lib. The default value is 9600
@@ -23,20 +24,25 @@ void main() {
 		//split of the entry with a space as splitting character
 		params = str_split(&query, " ");		
 		//switch case about which command is entered
-		switch (params[0]); {
-		case "help":
+		if (strncmp(param[0],"help")==0){
 			//help about the which commands are available
 			printf('"set" allows to set the baud rate or the port');
 			printf('"read" starts the program with the entered (or default if non entered) parameters');
-		case "set":
+		}
+		if (strncmp(param[0],"set")==0){
 			//command to set the baud rate and/or the port
 			setfunc(&baud, &port, params);
+		}
 
-		case "read":
+		if (strncmp(param[0],"read")==0){
 			//command to start de reading of the arduino
 			printf("%i \n", readlightmock(&port, baud));
-
-			
+		}
+		if (strncmp(param[0],"exit")==0){
+			exit(EXIT_SUCCESS);
+		}
+		else{
+			printf("no such command");
 		}
 
 	}
@@ -44,16 +50,21 @@ void main() {
 //setfunc is used to recognise the parameters for the set command
 void setfunc(char *baud, char *port, char **params) {
 	switch (params[1]) {
-	case "port":
+	if (strncmp(param[0],"port")==0){
 		//in case of port we take the value and save it in the port variable
 		*port = params[2];
-	case "baud":
+	}
+	if (strncmp(param[0],"baud")==0){
 		//in case of baud we take the int and save it in the baud variable
 		*baud = stringtobaud(param[2]);
-	case "help":
+	}
+	if (strncmp(param[0],"help")==0){
 		//help for the help
 		printf('"set port [portname]" to set port');
 		printf('"set baud [baudrate]" to set the baud rate');
+	}
+	else{
+		printf("no such parameter for the set command");
 	}
 
 
